@@ -1,172 +1,87 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
 
 function App() {
-  const defaultInfo = { name: 'Fill-Name', email: 'blank@gmail.com', phoneNum: '' };
-  const defaultEducation = {school: "Fill-School", degree: "Fill-Degree", dataOfStudy: "Fill-Date"};
-  const defaultExperience = {company: "Fill-Company", position: "Fill-Position", mainTasks: "Fill-Main-Tasks", dateFrom: "Fill-Date", dateTo: "Fill-Date"};
+  const [pokemonData, setPokemonData] = useState([]);
+  const [touchedPokemon, setTouchedPokemon] = useState([]);
+  const [count, setCount] = useState(0);
+  const [bestCount, setBestCount] = useState(0);
 
-  const [info, setInfo] = useState(defaultInfo);
-  const [ education, setEducation ] = useState(defaultEducation);
-  const [ experience, setExperience ] = useState(defaultExperience);
-  const [submitted, setSubmitted] = useState(false);
+  useEffect(() => {
+    // Generate an array of 15 unique random numbers between 1 and 649
+    const getRandomNumbers = (min, max, count) => {
+      const numbers = new Set();
+      while (numbers.size < count) {
+        const num = Math.floor(Math.random() * (max - min + 1) + min);
+        numbers.add(num);
+      }
+      return Array.from(numbers);
+    };
 
-  const handleInfoChange = (event) => {
-    const { name, value } = event.target;
-    setInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
-  };
+    const randomNumbers = getRandomNumbers(1, 649, 15);
 
-  const handleEducationChange = (event) => {
-    const { name, value } = event.target;
-    setEducation((prevEducation) => ({ ...prevEducation, [name]: value }));
-  }
+    // Fetch Pokemon data using the generated random numbers
+    const fetchData = async () => {
+      const promises = randomNumbers.map(number =>
+        fetch(`https://pokeapi.co/api/v2/pokemon/${number}`)
+          .then(response => response.json())
+      );
 
-  const handleExperienceChange = (event) => {
-    const { name, value } = event.target;
-    setExperience((prevExperience) => ({ ...prevExperience, [name]: value }));
-  }
+      try {
+        const results = await Promise.all(promises);
+        setPokemonData(results);
+        console.log(results);
+      } catch (error) {
+        console.error('DATA FAILED TO LOAD IN EFFECT:', error);
+      }
+    };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(true);
-  };
+    fetchData();
+  }, []);
 
-  const handleEdit = (event) => {
-    setSubmitted(false);
+  function handleCardClick(pokemonName) {
+    console.log("Touched", pokemonName);
+    if (!touchedPokemon.includes(pokemonName)) {
+      setCount(prevCount => prevCount + 1);
+      setTouchedPokemon([...touchedPokemon, pokemonName]);
+    } else {
+      if (count > bestCount) {
+        setBestCount(count);
+      }
+      setCount(0);
+      setTouchedPokemon([]);
+    }
+    shuffleArray(pokemonData);
   }
 
   return (
-    <div className="App">
-    <section className="generalInfo">
-        <h1>General Information</h1>
-        <form onSubmit={handleSubmit}>
-          <label>Name: </label>
-          {!submitted && (<input
-            type="text"
-            name="name"
-            value={info.name}
-            onChange={handleInfoChange}
-            readOnly={submitted}
-            className={submitted ? 'lockedInput' : ''}
-          />)}
-          {submitted && (<p>{info.name}</p>)}
-          <label>Email: </label>
-          {!submitted && (<input
-            type="text"
-            name="email"
-            value={info.email}
-            onChange={handleInfoChange}
-            readOnly={submitted}
-            className={submitted ? 'lockedInput' : ''}
-          />)}
-          {submitted && (<p>{info.email}</p>)}
-          <label>Phone Number: </label>
-          {!submitted && (
-            <input
-              type="text"
-              name="phoneNum"
-              value={info.phoneNum}
-              onChange={handleInfoChange}
-              readOnly={submitted}
-              className={submitted ? 'lockedInput' : ''}
-            />
-          )}
-          {submitted && <p>{info.phoneNum}</p>}
-        <h1>Education</h1>
-            <label>School: </label>
-            {!submitted && (<input
-            type="text"
-            name="school"
-            value={education.school}
-            onChange={handleEducationChange}
-            readOnly={submitted}
-            className={submitted ? 'lockedInput' : ''}
-          />)}
-          {submitted && (<p>{education.school}</p>)}
-            <label>Degree: </label>
-            {!submitted && (<input
-            type="text"
-            name="degree"
-            value={education.degree}
-            onChange={handleEducationChange}
-            readOnly={submitted}
-            className={submitted ? 'lockedInput' : ''}
-          />)}
-          {submitted && (<p>{education.degree}</p>)}
-            <label>Date of Study: </label>
-            {!submitted && (
-              <input
-                type="text"
-                name="dateOfStudy"
-                value={education.dateOfStudy}
-                onChange={handleEducationChange}
-                readOnly={submitted}
-                className={submitted ? 'lockedInput' : ''}
-              />
-            )}
-            {submitted && <p>{education.dateOfStudy}</p>}
-        <h1>Experience</h1>
-            <label>Company: </label>
-            {!submitted && (<input
-            type="text"
-            name="company"
-            value={experience.company}
-            onChange={handleExperienceChange}
-            readOnly={submitted}
-            className={submitted ? 'lockedInput' : ''}
-          />)}
-          {submitted && (<p>{experience.company}</p>)}
-            <label>Position: </label>
-            {!submitted && (<input
-            type="text"
-            name="position"
-            value={experience.position}
-            onChange={handleExperienceChange}
-            readOnly={submitted}
-            className={submitted ? 'lockedInput' : ''}
-          />)}
-          {submitted && (<p>{experience.position}</p>)}
-          <label>Main Tasks: </label>
-          {!submitted && (
-            <input
-              type="text"
-              name="mainTasks"
-              value={experience.mainTasks}
-              onChange={handleExperienceChange}
-              readOnly={submitted}
-              className={submitted ? 'lockedInput' : ''}
-            />
-          )}
-          {submitted && <p>{experience.mainTasks}</p>}
-            <label>Date From: </label>
-            {!submitted && (
-              <input
-                type="text"
-                name="dateFrom"
-                value={experience.dateFrom}
-                onChange={handleExperienceChange}
-                readOnly={submitted}
-                className={submitted ? 'lockedInput' : ''}
-              />
-            )}
-            {submitted && <p>{experience.dateFrom}</p>}
-
-            <label>Date To: </label>
-            {!submitted && (
-              <input
-                type="text"
-                name="dateTo"
-                value={experience.dateTo}
-                onChange={handleExperienceChange}
-                readOnly={submitted}
-                className={submitted ? 'lockedInput' : ''}
-              />
-            )}
-            {submitted && <p>{experience.dateTo}</p>}
-          </form>
-          <button onClick={!submitted ? handleSubmit : handleEdit}>{!submitted ? 'Submit' : 'Edit'}</button>
-      </section>
-    </div>
+    <>
+      <img className="logo" src="\src\assets\pLogo.png" alt="Pokemon Logo" />
+      <nav className='nav-bar'>
+        <h1>Pokemon Memory Game!</h1>
+        <h2>Score: {count}</h2>
+        <h2>Best Score: {bestCount}</h2>
+        <button onClick={() => {setBestCount(0)}}>Reset Best Score</button>
+      </nav>
+      <p>Get points by clicking on an image but don't click on any more than once!</p>
+      <hr></hr>
+      <div className='cardGrid'>
+        {pokemonData.map((pokemon, index) => (
+          <div key={index} className='card' onClick={() => handleCardClick(pokemon.name)}>
+            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon.id}.svg`} alt="ERROR" />
+            <p className='card-name'>{pokemon.name}</p>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 
