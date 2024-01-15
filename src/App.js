@@ -72,7 +72,7 @@ function App() {
         <h2>Best Score: {bestCount}</h2>
         <button onClick={() => {setBestCount(0)}}>Reset Best Score</button>
       </nav>
-      <p>Get points by clicking on an image but don't click on any more than once!</p>
+      <p className='rules'>Get points by clicking on an image but don't click on any more than once!</p>
       <hr></hr>
       <div className='cardGrid'>
         {pokemonData.map((pokemon, index) => (

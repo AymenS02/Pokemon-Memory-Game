@@ -3,7 +3,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: rgb(255, 203, 5);
+}
+
+body {
+  background: linear-gradient(
+    to bottom,
+    rgb(0, 0, 0) 0%, 
+    rgb(255, 203, 5) 3%
+    );
+
+  font-family: 'Roboto', sans-serif;
+  color: rgb(0, 0, 0);
 }
 
 
@@ -15,15 +25,19 @@
   padding: 10px;
 }
 
-
 .nav-bar {
   margin-top: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
 }
+
+.rules {
+  margin-top: 5px;
+}
+
 
 .cardGrid {
   display: grid;
