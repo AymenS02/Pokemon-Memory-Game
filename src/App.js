@@ -1,5 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
+import pLogo from './assets/pLogo.png';
 
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -64,9 +65,9 @@ function App() {
 
   return (
     <>
-      <img className="logo" src="\src\assets\pLogo.png" alt="Pokemon Logo" />
       <nav className='nav-bar'>
         <h1>Pokemon Memory Game!</h1>
+        <img className="logo" src={pLogo} alt="Pokemon Logo" />
         <h2>Score: {count}</h2>
         <h2>Best Score: {bestCount}</h2>
         <button onClick={() => {setBestCount(0)}}>Reset Best Score</button>
