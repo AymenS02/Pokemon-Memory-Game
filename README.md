@@ -24,7 +24,7 @@ npm start
 
 ## How to Play
 
-- Click on Pokémon cards to reveal their images.
+- Click on Pokémon cards to get a point
 - The order of Pokémon cards shuffles after each click.
 - Avoid clicking on the same Pokémon twice to maintain your score.
 - Try to achieve the highest score possible!
