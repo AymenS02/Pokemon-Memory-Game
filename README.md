@@ -38,7 +38,7 @@ npm start
 
 ## Screenshots
 
-![image](https://github.com/AymenS02/Pokemon-Memory-Game/assets/95427313/aa57d5c2-35ed-49ab-9109-c356496b754e)
+![image](https://github.com/AymenS02/Pokemon-Memory-Game/assets/95427313/5c91b97f-6a23-4ad8-aad6-c0101208b552)
 
 ## Credits
 
