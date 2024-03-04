@@ -30,6 +30,7 @@ body {
   justify-content: space-between;
   flex-direction: row;
 }
+
 .rules {
   padding-left: 10px;
   margin-top: 5px;
@@ -94,5 +95,5 @@ button {
 button:hover {
   transform: scale(1.01);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  color: #f0f0f0
+  color: #f0f0f1
 }
