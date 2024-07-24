@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import React, { useEffect, useState } from 'react';
 import pLogo from './assets/pLogo.png';
 import { motion } from 'framer-motion';
@@ -53,7 +53,30 @@ function App() {
   const [count, setCount] = useState(0);
   const [bestCount, setBestCount] = useState(0);
   const [isShakeGrid, setIsShakeGrid] = useState(false);  // Renamed to avoid conflict
+  
+  const [timer, setTimer] = useState(15);
 
+  const [start, setStart] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    if (start) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+  
+    if (timer === 0) {
+      clearInterval(interval);
+      setStart((prevStart) => !prevStart);
+      alert("Time's up!");
+    }
+  
+    return () => {
+      clearInterval(interval);
+    };
+  }, [timer, start]);
+  
   useEffect(() => {
     const getRandomNumbers = (min, max, count) => {
       const numbers = new Set();
@@ -65,7 +88,7 @@ function App() {
     };
 
     const fetchData = async () => {
-      const randomNumbers = getRandomNumbers(1, 649, 15);
+      const randomNumbers = getRandomNumbers(1, 649, 20);
       const promises = randomNumbers.map((number) =>
         fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
           response.json()
@@ -85,7 +108,7 @@ function App() {
   }, []);
 
   async function fetchNewPokemonSet() {
-    const randomNumbers = getRandomNumbers(1, 649, 15);
+    const randomNumbers = getRandomNumbers(1, 649, 20);
     const promises = randomNumbers.map((number) =>
       fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
         response.json()
@@ -105,10 +128,14 @@ function App() {
     if (!touchedPokemon.includes(pokemonName)) {
       setCount((prevCount) => prevCount + 1);
       setTouchedPokemon([...touchedPokemon, pokemonName]);
+      setTimer((prevTimer) => 15);
     } else {
       if (count > bestCount) {
         setBestCount(count);
       }
+
+      setStart(!start);
+      setTimer(-1);
       setCount(0);
       setTouchedPokemon([]);
       setIsShakeGrid(true);
@@ -124,16 +151,21 @@ function App() {
   return (
     <>
       <nav className='nav-bar'>
-        <h1>Pokemon Memory Game!</h1>
+        <h1 className='title'>Pokemon Memory Game!</h1>
         <img className="logo" src={pLogo} alt="Pokemon Logo" />
-        <h2>Score: {count}</h2>
-        <h2>Best Score: {bestCount}</h2>
+        <h2 className='timer'>Timer: {timer}</h2>
+        <h2 className='score'>Score: {count}</h2>
+        <h2 className='best-score'>Best Score: {bestCount}</h2>
         <button onClick={() => {setBestCount(0)}}>Reset Best Score</button>
       </nav>
+
       <p className='rules'>Get points by clicking on an image but don't click on any more than once!</p>
       <hr></hr>
-
-      <motion.div
+      {!start && <div className='start-grid'>
+        <button className="start-button" onClick={() => setStart(!start)}>{start ? 'Stop' : 'Start'}</button>
+      </div>}
+      {start && (
+        <motion.div
         variants={isShakeGrid ? shakeGridVariant : container}
         initial="hidden"
         animate={isShakeGrid ? 'shake' : 'visible'}
@@ -155,7 +187,7 @@ function App() {
             <p className='card-name'>{pokemon.name}</p>
           </motion.div>
         ))}
-      </motion.div>
+      </motion.div>)}
     </>
   );
 }
