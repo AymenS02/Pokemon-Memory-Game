@@ -6,7 +6,7 @@ Welcome to the Pokémon Memory Game! Test your memory and Pokémon knowledge by 
 
 1. Clone the repository to your local machine:
 
-git clone https://github.com/your-username/pokemon-memory-game.git
+git clone https://github.com/AymenS02/pokemon-memory-game.git
 
 2. Navigate to the project directory:
 
