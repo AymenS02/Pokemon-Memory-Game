@@ -35,6 +35,8 @@ body {
     }
   
   button {
+    font-size: 1.5em;
+    font-weight: bold;
     padding: 10px;
     color: rgb(0, 0, 0);
     border: 1px solid black;
@@ -47,6 +49,43 @@ body {
     transform: scale(1.01);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     color: #f0f0f1
+  }
+
+  .stats{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    .timer {
+      font-size: 1.5em;
+      font-weight: bold;
+      padding: 10px 30px;
+      font-size: 1.5em;
+      font-weight: bold;
+      background-color: rgb(61, 125, 202);
+      border-radius: 10px 0px 0px 10px;
+      border: 1px solid black;
+    }
+  
+    .score {
+      font-size: 1.5em;
+      font-weight: bold;
+      padding: 10px 30px;
+      font-size: 1.5em;
+      font-weight: bold;
+      background-color: rgb(61, 125, 202);
+      border: 1px solid black;
+    }
+  
+    .best-score {
+      padding: 10px 30px;
+      font-size: 1.5em;
+      font-weight: bold;
+      background-color: rgb(61, 125, 202);
+      border-radius: 0px 10px 10px 0px;
+      border: 1px solid black;
+    }
   }
 }
 
@@ -69,6 +108,7 @@ hr {
   align-items: center;
 
   .start-button {
+    font-size: 2.5em;
     width: 20vh;
     height: 20vh;
     padding: 10px;

@@ -70,6 +70,7 @@ function App() {
       clearInterval(interval);
       setStart((prevStart) => !prevStart);
       alert("Time's up!");
+      setTimer(-1);
     }
   
     return () => {
@@ -88,7 +89,7 @@ function App() {
     };
 
     const fetchData = async () => {
-      const randomNumbers = getRandomNumbers(1, 649, 20);
+      const randomNumbers = getRandomNumbers(1, 649, 30);
       const promises = randomNumbers.map((number) =>
         fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
           response.json()
@@ -108,7 +109,7 @@ function App() {
   }, []);
 
   async function fetchNewPokemonSet() {
-    const randomNumbers = getRandomNumbers(1, 649, 20);
+    const randomNumbers = getRandomNumbers(1, 649, 30);
     const promises = randomNumbers.map((number) =>
       fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
         response.json()
@@ -153,16 +154,20 @@ function App() {
       <nav className='nav-bar'>
         <h1 className='title'>Pokemon Memory Game!</h1>
         <img className="logo" src={pLogo} alt="Pokemon Logo" />
-        <h2 className='timer'>Timer: {timer}</h2>
-        <h2 className='score'>Score: {count}</h2>
-        <h2 className='best-score'>Best Score: {bestCount}</h2>
+        <div className='stats'>
+          <h2 className='timer'>Timer: {timer}</h2>
+          <h2 className='score'>Score: {count}</h2>
+          <h2 className='best-score'>Best Score: {bestCount}</h2>
+        </div>
+        {start && (<button onClick={() => { setStart(!start); setCount(0); }}>{start ? 'Stop' : 'Start'}</button>)}
+        <button onClick={() => { fetchNewPokemonSet(); setTimer(25);}}>New Pokemon Set</button>
         <button onClick={() => {setBestCount(0)}}>Reset Best Score</button>
       </nav>
 
       <p className='rules'>Get points by clicking on an image but don't click on any more than once!</p>
       <hr></hr>
       {!start && <div className='start-grid'>
-        <button className="start-button" onClick={() => setStart(!start)}>{start ? 'Stop' : 'Start'}</button>
+        <button className="start-button" onClick={() => { setStart(!start); setCount(0); setTimer(25);}}>{start ? 'Stop' : 'PLAY'}</button>
       </div>}
       {start && (
         <motion.div
