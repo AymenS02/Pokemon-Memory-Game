@@ -89,7 +89,7 @@ function App() {
     };
 
     const fetchData = async () => {
-      const randomNumbers = getRandomNumbers(1, 649, 30);
+      const randomNumbers = getRandomNumbers(1, 649, 20);
       const promises = randomNumbers.map((number) =>
         fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
           response.json()
@@ -109,7 +109,7 @@ function App() {
   }, []);
 
   async function fetchNewPokemonSet() {
-    const randomNumbers = getRandomNumbers(1, 649, 30);
+    const randomNumbers = getRandomNumbers(1, 649, 20);
     const promises = randomNumbers.map((number) =>
       fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
         response.json()
