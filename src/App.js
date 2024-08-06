@@ -58,6 +58,8 @@ function App() {
 
   const [start, setStart] = useState(false);
 
+  const set = 15;
+
   useEffect(() => {
     let interval;
     if (start) {
@@ -89,7 +91,7 @@ function App() {
     };
 
     const fetchData = async () => {
-      const randomNumbers = getRandomNumbers(1, 649, 20);
+      const randomNumbers = getRandomNumbers(1, 649, set);
       const promises = randomNumbers.map((number) =>
         fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
           response.json()
@@ -109,7 +111,7 @@ function App() {
   }, []);
 
   async function fetchNewPokemonSet() {
-    const randomNumbers = getRandomNumbers(1, 649, 20);
+    const randomNumbers = getRandomNumbers(1, 649, set);
     const promises = randomNumbers.map((number) =>
       fetch(`https://pokeapi.co/api/v2/pokemon/${number}`).then((response) =>
         response.json()
@@ -147,6 +149,19 @@ function App() {
       }, 1000); // Adjust the delay duration in milliseconds as needed
     }
     shuffleArray(pokemonData);
+  }
+  
+  if (count === set) {
+    alert("You win!");
+    setStart(false);
+    setCount(0);
+    setTouchedPokemon([]);
+    setIsShakeGrid(true);
+
+    setTimeout(async () => {
+      setIsShakeGrid(false); // Reset isShakeGrid state
+      await fetchNewPokemonSet();
+    }, 1000); // Adjust the delay duration in milliseconds as needed
   }
 
   return (
