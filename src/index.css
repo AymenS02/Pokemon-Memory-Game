@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bright-blue: #5EA2EF; /* bright blue */
+  --color-dark-blue: #0072F5;   /* dark blue */
+
+  --text-color-blue-gradient: linear-gradient(
+    to bottom,
+    var(--color-bright-blue),
+    var(--color-dark-blue)
+  );
+
+  --background-blue-diagonal: linear-gradient(
+    to bottom right,
+    var(--color-bright-blue),
+    var(--color-dark-blue)
+  );
+}
+
+.text-blue-gradient {
+  background-image: var(--text-color-blue-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-blue-diagonal {
+  background-image: var(--background-blue-diagonal);
+}
+@layer utilities {
+  .text-outline {
+    -webkit-text-stroke: 1px black; /* Outline width and color */
+    color: white; /* Text fill color */
+  }
+}
